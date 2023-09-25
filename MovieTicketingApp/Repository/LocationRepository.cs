@@ -17,6 +17,8 @@ namespace MovieTicketingApp.Repository
         public bool CreateLocation(Location location)
         {
             _context.Add(location);
+
+            return Save();
         }
 
         public bool Save()
