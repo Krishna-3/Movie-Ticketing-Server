@@ -1,4 +1,6 @@
-﻿namespace MovieTicketingApp.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MovieTicketingApp.Models
 {
     public class MovieLocation
     {
