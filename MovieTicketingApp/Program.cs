@@ -1,11 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 using MovieTicketingApp.Data;
+using MovieTicketingApp.Interfaces;
+using MovieTicketingApp.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IUserRepository,UserRepository>();
+builder.Services.AddScoped<ILocationRepository,LocationRepository>();
+builder.Services.AddScoped<IMovieRepository,MovieRepository>();
+builder.Services.AddScoped<ITheatreRepository,TheatreRepository>();
+builder.Services.AddScoped<ISeatRepository,SeatRepository>();
+builder.Services.AddScoped<ITicketRepository,TicketRepository>();
+builder.Services.AddScoped<IMovieLocationRepository,MovieLocationRepository>();
+builder.Services.AddScoped<IMovieTheatreRepository,MovieTheatreRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
