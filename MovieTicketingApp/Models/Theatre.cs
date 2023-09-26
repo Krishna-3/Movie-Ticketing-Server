@@ -6,9 +6,9 @@
 
         public string NameEn { get; set; }
 
-        public string NameHin { get; set; }
+        public string NameHi { get; set; }
 
-        public string NameTel{ get; set; }
+        public string NameTe{ get; set; }
 
         public int LocationId { get; set; }
 
