@@ -15,6 +15,8 @@ namespace MovieTicketingApp.Repository
 
         public bool CreateUser(User user)
         {
+            user.Role = "user";
+
             _context.Add(user);
 
             return Save();
