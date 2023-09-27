@@ -81,6 +81,18 @@ namespace MovieTicketingApp.Data
                .HasOne(t => t.Location)
                .WithMany() 
                .HasForeignKey(t => t.LocationId);
+
+            modelBuilder.Entity<Movie>()
+               .HasKey(t => t.Id);
+
+            modelBuilder.Entity<Seat>()
+               .HasKey(t => t.Id);
+
+            modelBuilder.Entity<Location>()
+               .HasKey(t => t.Id);
+
+            modelBuilder.Entity<User>()
+               .HasKey(t => t.Id);
         }
     }
 } 
