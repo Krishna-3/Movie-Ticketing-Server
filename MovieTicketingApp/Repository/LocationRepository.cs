@@ -27,6 +27,13 @@ namespace MovieTicketingApp.Repository
             return Save();
         }
 
+        public Location GetLocation(int locationId)
+        {
+            var location = _context.Locations.First(l => l.Id == locationId);
+
+            return location;
+        }
+
         public IEnumerable<Location> GetLocations()
         {
             return _context.Locations.ToList();
@@ -35,6 +42,18 @@ namespace MovieTicketingApp.Repository
         public bool LocationExists(int locationId)
         {
             var locationExists = _context.Locations.FirstOrDefault(l => l.Id == locationId);
+
+            if (locationExists == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool LocationExists(string city)
+        {
+            var locationExists = _context.Locations.FirstOrDefault(l => l.City == city);
 
             if (locationExists == null)
             {

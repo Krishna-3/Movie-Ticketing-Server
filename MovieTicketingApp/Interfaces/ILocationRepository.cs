@@ -6,13 +6,18 @@ namespace MovieTicketingApp.Interfaces
     {
         bool CreateLocation(Location location);
 
-        IEnumerable<Location> GetLocations();   
+        IEnumerable<Location> GetLocations();
+        
+        Location GetLocation(int locationId);   
 
         bool UpdateLocation(Location location);
 
         bool DeleteLocation(Location location);
 
         bool LocationExists(int locationId);
+        
+        bool LocationExists(string city);
+
 
         bool Save();
     }
