@@ -2,6 +2,7 @@
 using MovieTicketingApp.Data;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
+using System.Xml.Serialization;
 
 namespace MovieTicketingApp.Repository
 {
@@ -14,18 +15,30 @@ namespace MovieTicketingApp.Repository
             _context = context;
         }
 
-        public bool CreateLocation(Seat seat)
+        public bool CreateSeats()
         {
-            _context.Add(seat);
+            List<char> arr = new() { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M','N','O' };
 
-            return Save();
-        }
+            foreach (var item in arr)
+            {
+                for(int i =1; i<=10;i++)
+                {
+                    Seat seat = new();
 
-        public bool Save()
-        {
+                    seat.SeatNumber= item + i.ToString();
+
+                    _context.Add(seat);
+                }
+            }
+
             var saved = _context.SaveChanges();
 
             return saved > 0;
+        }
+
+        public IEnumerable<Seat> GetSeats()
+        {
+            return _context.Seats.ToList();
         }
     }
 }

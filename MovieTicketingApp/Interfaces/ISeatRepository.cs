@@ -4,8 +4,8 @@ namespace MovieTicketingApp.Interfaces
 {
     public interface ISeatRepository
     {
-        bool CreateLocation(Seat seat);
+        bool CreateSeats();
 
-        bool Save();
+        IEnumerable<Seat> GetSeats();
     }
 }
