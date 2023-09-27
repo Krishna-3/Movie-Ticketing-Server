@@ -45,10 +45,6 @@ namespace MovieTicketingApp.Repository
 
         public bool UpdateUser(User user)
         {
-            //var user = _context.Users.Find(updatedUser.Id);
-            //user.Username = updatedUser.Username;
-            // user.Email = updatedUser.Email;
-
             _context.Update(user);
 
             return Save();
