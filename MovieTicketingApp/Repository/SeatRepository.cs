@@ -15,27 +15,6 @@ namespace MovieTicketingApp.Repository
             _context = context;
         }
 
-        public bool CreateSeats()
-        {
-            List<char> arr = new() { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M','N','O' };
-
-            foreach (var item in arr)
-            {
-                for(int i =1; i<=10;i++)
-                {
-                    Seat seat = new();
-
-                    seat.SeatNumber= item + i.ToString();
-
-                    _context.Add(seat);
-                }
-            }
-
-            var saved = _context.SaveChanges();
-
-            return saved > 0;
-        }
-
         public IEnumerable<Seat> GetSeats()
         {
             return _context.Seats.ToList();
