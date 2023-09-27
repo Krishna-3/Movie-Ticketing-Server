@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MovieTicketingApp.Data;
+﻿using MovieTicketingApp.Data;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
 
@@ -21,11 +20,42 @@ namespace MovieTicketingApp.Repository
             return Save();
         }
 
+        public bool DeleteLocation(Location location)
+        {
+            _context.Remove(location);
+
+            return Save();
+        }
+
+        public IEnumerable<Location> GetLocations()
+        {
+            return _context.Locations.ToList();
+        }
+
+        public bool LocationExists(int locationId)
+        {
+            var locationExists = _context.Locations.FirstOrDefault(l => l.Id == locationId);
+
+            if (locationExists == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
 
             return saved > 0;
+        }
+
+        public bool UpdateLocation(Location location)
+        {
+            _context.Update(location);
+
+            return Save();
         }
     }
 }
