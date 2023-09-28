@@ -159,6 +159,74 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [HttpPatch("language/{movieId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateLanguage(int movieId, [FromBody] MovieLanguage Language)
+        {
+            if (movieId < 0)
+                return BadRequest();
+
+            if (Language == null)
+                return BadRequest();
+
+            if (!_movieRepository.MovieExists(movieId))
+            {
+                ModelState.AddModelError("message", "Movie doesn't exists");
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var movie = _movieRepository.GetMovie(movieId);
+            movie.LanguageTe = Language.LanguageTe;
+            movie.LanguageHi = Language.LanguageHi;
+            movie.LanguageEn = Language.LanguageEn;
+
+            if (!_movieRepository.UpdateMovie(movie))
+            {
+                ModelState.AddModelError("message", "Movie can not be updated");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPatch("rating/{movieId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateRating(int movieId, [FromBody] float rating)
+        {
+            if (movieId < 0)
+                return BadRequest();
+
+            if (rating < 1 || rating >5)
+                return BadRequest();
+
+            if (!_movieRepository.MovieExists(movieId))
+            {
+                ModelState.AddModelError("message", "Movie doesn't exists");
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var movie = _movieRepository.GetMovie(movieId);
+            movie.Rating = rating;
+
+            if (!_movieRepository.UpdateMovie(movie))
+            {
+                ModelState.AddModelError("message", "Movie can not be updated");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
         [HttpDelete("{movieId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
