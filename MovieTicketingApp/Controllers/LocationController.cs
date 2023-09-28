@@ -2,7 +2,6 @@
 using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
-using MovieTicketingApp.Repository;
 
 namespace MovieTicketingApp.Controllers
 {
