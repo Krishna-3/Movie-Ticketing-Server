@@ -37,7 +37,7 @@ namespace MovieTicketingApp.Controllers
             if (location == null)
                 return BadRequest();
 
-            if (_locationRepository.LocationExists(location.Id))
+            if (_locationRepository.LocationExists(location.City))
             {
                 ModelState.AddModelError("message", "Location already exists");
                 return BadRequest(ModelState);
