@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using MovieTicketingApp.Models;
-using MovieTicketingApp.Repository;
+using MovieTicketingApp.Interfaces;
 
 namespace MovieTicketingApp.Controllers
 {
@@ -9,26 +8,28 @@ namespace MovieTicketingApp.Controllers
     [ApiController]
     public class Statecontroller : ControllerBase
     {
-        private readonly State _state;
-        private readonly LocationRepository _location;
+        private readonly IStateRepository _state;
+        private readonly ILocationRepository _location;
 
-        public Statecontroller(State state, LocationRepository location)
+        public Statecontroller(IStateRepository state, ILocationRepository location)
         {
             _state = state;
             _location = location;
         }
 
-        [HttpPost]
+        [HttpPost("language")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public IActionResult SelectLanguage ([FromBody] string languageCode)
         {
-            _state.preferredLanguage = "en";
+            _state.SetLanguage("en");
 
             if (languageCode.IsNullOrEmpty())
                 return BadRequest();
 
-            if (!_state.LanguageCode.Contains(languageCode))
+            var allowedCodes = _state.GetAllowedLanguageCodes();
+
+            if (!allowedCodes.Contains(languageCode))
             {
                 ModelState.AddModelError("message", "language is not supported");
                 return BadRequest(ModelState);
@@ -37,12 +38,12 @@ namespace MovieTicketingApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            _state.preferredLanguage = languageCode;
+            _state.SetLanguage(languageCode);
 
             return Ok("Successfully langauge selected");
         }
 
-        [HttpPost]
+        [HttpPost("location")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public IActionResult SelectLocation ([FromBody] string city)
@@ -50,7 +51,7 @@ namespace MovieTicketingApp.Controllers
             if (city.IsNullOrEmpty())
                 return BadRequest();
 
-            if (_location.LocationExists(city))
+            if (!_location.LocationExists(city))
             {
                 ModelState.AddModelError("message", "Location does not exists");
                 return BadRequest(ModelState);
@@ -59,7 +60,7 @@ namespace MovieTicketingApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            _state.selectedLocation = city;
+            _state.SetLocation(city);
 
             return Ok("Successfully location selected");
         }
