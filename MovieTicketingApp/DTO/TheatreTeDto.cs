@@ -6,7 +6,7 @@ namespace MovieTicketingApp.DTO
     {
         public int Id { get; set; }
 
-        public string NameEn { get; set; }
+        public string NameTe { get; set; }
 
         public Location Location { get; set; }
     }
