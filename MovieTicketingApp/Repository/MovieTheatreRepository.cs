@@ -1,4 +1,6 @@
-﻿using MovieTicketingApp.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieTicketingApp.Data;
+using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
 
@@ -13,11 +15,53 @@ namespace MovieTicketingApp.Repository
             _context = context;
         }
 
-        public bool CreateLocation(MovieTheatre movieTheatre)
+        public bool CreateMovieTheatre(MovieTheatre movieTheatre)
         {
             _context.Add(movieTheatre);
 
             return Save();
+        }
+
+        public bool DeleteMovieTheatre(MovieTheatre movieTheatre)
+        {
+            _context.Remove(movieTheatre);
+
+            return Save();
+        }
+
+        public IEnumerable<MovieTheatre> GetAllMovieTheatres()
+        {
+            return _context.MovieTheatres.Include(mt => mt.Movie).Include(mt => mt.Theatre).ToList();
+        }
+
+        public MovieTheatre GetMovieTheatre(int id)
+        {
+            return _context.MovieTheatres.First(mt => mt.Id == id);
+        }
+
+        public bool MovieTheatreExists(MovieTheatreDto movieTheatreDto)
+        {
+            var movieLocationExists = _context.MovieTheatres.FirstOrDefault(mt => mt.MovieId == movieTheatreDto.MovieId &&
+                                                                                   mt.TheatreId == movieTheatreDto.TheatreId);
+
+            if (movieLocationExists == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool MovieTheatreExists(int movieTheatreId)
+        {
+            var movieLocationExists = _context.MovieTheatres.FirstOrDefault(mt => mt.Id == movieTheatreId);
+
+            if (movieLocationExists == null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public bool Save()
