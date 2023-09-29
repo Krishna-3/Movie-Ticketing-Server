@@ -27,6 +27,11 @@ namespace MovieTicketingApp.Repository
             return _state.selectedLocation;
         }
 
+        public Dictionary<string, string> GetTimings()
+        {
+            return _state.timings;
+        }
+
         public void SetLanguage(string language)
         {
             _state.preferredLanguage = language;

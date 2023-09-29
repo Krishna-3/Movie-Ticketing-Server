@@ -19,6 +19,7 @@ namespace MovieTicketingApp.Helper
             CreateMap<TheatreName, Theatre>();
             CreateMap<MovieLocationDto, MovieLocation>();
             CreateMap<MovieTheatreDto, MovieTheatre>();
+            CreateMap<TicketId, Ticket>();
         }
     }
 }

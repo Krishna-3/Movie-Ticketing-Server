@@ -10,6 +10,8 @@ namespace MovieTicketingApp.Interfaces
 
         List<string> GetAllowedLanguageCodes();
 
+        Dictionary<string, string> GetTimings();
+
         void SetLanguage(string language);
 
         void SetLocation(string location);

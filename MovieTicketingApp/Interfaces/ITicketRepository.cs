@@ -1,10 +1,17 @@
-﻿using MovieTicketingApp.Models;
+﻿using MovieTicketingApp.DTO;
+using MovieTicketingApp.Models;
 
 namespace MovieTicketingApp.Interfaces
 {
     public interface ITicketRepository
     {
-        bool CreateLocation(Ticket ticket);
+        IEnumerable<Ticket> GetTickets(int userId);
+
+        bool CreateTicket(Ticket ticket);
+
+        bool DeleteTicket(Ticket ticket);
+
+        bool TicketExists(TicketId ticket, DateTime dateTime);
 
         bool Save();
     }
