@@ -32,8 +32,7 @@ namespace MovieTicketingApp.Repository
         public IEnumerable<Ticket> GetTickets(int userId)
         {
             var tickets = _context.Tickets.Where(t => t.UserId == userId)
-                                          .Include(t => t.MovieTheatre.Movie)
-                                          .Include(t => t.MovieTheatre.Theatre)
+                                          .Include(t => t.MovieTheatre)
                                           .Include(t => t.Seat);
 
             return tickets;

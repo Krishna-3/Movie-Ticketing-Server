@@ -4,7 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
-using MovieTicketingApp.Repository;
 
 namespace MovieTicketingApp.Controllers
 {
@@ -28,7 +27,7 @@ namespace MovieTicketingApp.Controllers
             _locationRepository = locationRepository;
         }
 
-        [HttpGet("{movieId}")]
+        [HttpGet("movie/{movieId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreEnDto>))]
         [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreTeDto>))]
         [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreHiDto>))]
@@ -73,6 +72,48 @@ namespace MovieTicketingApp.Controllers
                 var enTheatres = _mapper.Map<List<TheatreEnDto>>(theatres);
 
                 return Ok(enTheatres);
+            }
+        }
+
+        [HttpGet("theatre/{theatreId}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreEnDto>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreTeDto>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreHiDto>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetTheatre(int theatreId)
+        {
+            
+            var theatre = _theatreRepository.GetTheatre(theatreId);
+
+            if (theatre == null)
+            {
+                ModelState.AddModelError("message", "No Theatres");
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var language = _state.GetLanguage();
+
+            if (language == "te")
+            {
+                var teTheatre = _mapper.Map<TheatreTeDto>(theatre);
+
+                return Ok(teTheatre);
+            }
+            else if (language == "hi")
+            {
+                var hiTheatre = _mapper.Map<TheatreHiDto>(theatre);
+
+                return Ok(hiTheatre);
+
+            }
+            else
+            {
+                var enTheatre = _mapper.Map<TheatreEnDto>(theatre);
+
+                return Ok(enTheatre);
             }
         }
 

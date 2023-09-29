@@ -63,6 +63,43 @@ namespace MovieTicketingApp.Controllers
             }
         }
 
+        [HttpGet("{movieId}")]
+        [ProducesResponseType(200, Type = typeof(MovieEnDto))]
+        [ProducesResponseType(200, Type = typeof(MovieTeDto))]
+        [ProducesResponseType(200, Type = typeof(MovieHiDto))]
+        [ProducesResponseType(400)]
+        public IActionResult GetMovieById(int movieId)
+        {
+            var movie = _movieRepository.GetMovie(movieId);
+
+            if (movie == null)
+                return BadRequest();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var language = _state.GetLanguage();
+
+            if (language == "te")
+            {
+                var teMovie = _mapper.Map<MovieTeDto>(movie);
+
+                return Ok(teMovie);
+            }
+            else if (language == "hi")
+            {
+                var hiMovie = _mapper.Map<MovieHiDto>(movie);
+
+                return Ok(hiMovie);
+            }
+            else
+            {
+                var enMovie = _mapper.Map<MovieEnDto>(movie);
+
+                return Ok(enMovie);
+            }
+        }
+
         [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Movie>))]
         [ProducesResponseType(400)]

@@ -34,7 +34,7 @@ namespace MovieTicketingApp.Repository
 
         public Movie GetMovie(int movieId)
         {
-            var movie = _context.Movies.First(m => m.Id == movieId);
+            var movie = _context.Movies.FirstOrDefault(m => m.Id == movieId);
 
             return movie;
         }
