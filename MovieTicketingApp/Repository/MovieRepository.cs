@@ -27,6 +27,11 @@ namespace MovieTicketingApp.Repository
             return Save();
         }
 
+        public IEnumerable<Movie> GetAllMovies()
+        {
+            return _context.Movies;
+        }
+
         public Movie GetMovie(int movieId)
         {
             var movie = _context.Movies.First(m => m.Id == movieId);

@@ -6,6 +6,8 @@ namespace MovieTicketingApp.Interfaces
     {
         IEnumerable<Movie> GetMovies(string city);
 
+        IEnumerable<Movie> GetAllMovies();
+
         Movie GetMovie(int movieId);
 
         bool CreateMovie(Movie movie);

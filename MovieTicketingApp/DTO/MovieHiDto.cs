@@ -8,7 +8,7 @@
 
         public string DescriptionHi { get; set; }
 
-        public string Language { get; set; }
+        public string LanguageHi { get; set; }
 
         public string Rating { get; set; }
     }

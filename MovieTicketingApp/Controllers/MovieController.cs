@@ -63,6 +63,16 @@ namespace MovieTicketingApp.Controllers
             }
         }
 
+        [HttpGet("all")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Movie>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetAllMovies()
+        {
+            var movies = _movieRepository.GetAllMovies();
+
+            return Ok(movies);
+        }
+
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -93,7 +103,7 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateMovie(int movieId, [FromBody] MovieTitle Title)
+        public IActionResult UpdateMovieTitle(int movieId, [FromBody] MovieTitle Title)
         {
             if (movieId < 0)
                 return BadRequest();
@@ -128,7 +138,7 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateDescription(int movieId, [FromBody] MovieDescription Description)
+        public IActionResult UpdateMovieDescription(int movieId, [FromBody] MovieDescription Description)
         {
             if (movieId < 0)
                 return BadRequest();
@@ -163,7 +173,7 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateLanguage(int movieId, [FromBody] MovieLanguage Language)
+        public IActionResult UpdateMovieLanguage(int movieId, [FromBody] MovieLanguage Language)
         {
             if (movieId < 0)
                 return BadRequest();
@@ -198,7 +208,7 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateRating(int movieId, [FromBody] float rating)
+        public IActionResult UpdateMovieRating(int movieId, [FromBody] float rating)
         {
             if (movieId < 0)
                 return BadRequest();
