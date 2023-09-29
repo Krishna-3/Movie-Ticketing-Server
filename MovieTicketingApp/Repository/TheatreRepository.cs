@@ -38,7 +38,7 @@ namespace MovieTicketingApp.Repository
         public Theatre GetTheatre(int theatreId)
         {
             var theatre = _context.Theatres.Include(t => t.Location)
-                                           .First(t =>  t.Id == theatreId);
+                                           .FirstOrDefault(t =>  t.Id == theatreId);
 
             return theatre;
         }
