@@ -4,7 +4,6 @@ using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
-using MovieTicketingApp.Repository;
 using System.Globalization;
 
 namespace MovieTicketingApp.Controllers
