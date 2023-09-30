@@ -72,7 +72,7 @@ namespace MovieTicketingApp.Controllers
         {
             byte[] bytes = null;
 
-            if (string.IsNullOrEmpty(PhotoString))
+            if (!string.IsNullOrEmpty(PhotoString))
             {
                 bytes = Convert.FromBase64String(PhotoString);
             }
@@ -96,6 +96,8 @@ namespace MovieTicketingApp.Controllers
                 return BadRequest();
 
             var language = _state.GetLanguage();
+
+            movie.Photo = GetImage(Convert.ToBase64String(movie.Photo));
 
             if (language == "te")
             {
@@ -145,17 +147,6 @@ namespace MovieTicketingApp.Controllers
                 return BadRequest(ModelState);
             
             movie.Photo = new MemoryStream().ToArray();
-
-            //photo upload
-           /* if (photo.Length > 0)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    photo.CopyTo(ms);
-                    var fileBytes = ms.ToArray();
-                    movie.Photo = fileBytes;
-                }
-            } */
 
             if (!_movieRepository.CreateMovie(movie))
             {
@@ -327,6 +318,79 @@ namespace MovieTicketingApp.Controllers
             if (!_movieRepository.DeleteMovie(movie))
             {
                 ModelState.AddModelError("message", "Movie can not be deleted");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost("photo/{movieId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult UploadPhoto(int movieId, [FromForm] IFormFile photo)
+        {
+            if (movieId < 0 || photo == null)
+                return BadRequest();
+
+            if (photo.ContentType != "image/jpeg" || photo.Length > 2*1000*1000)
+            {
+                ModelState.AddModelError("message", "image should follow constraints");
+                return BadRequest(ModelState);
+            }
+
+            if (!_movieRepository.MovieExists(movieId))
+            {
+                ModelState.AddModelError("message", "Movie doesn't exists");
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var movie = _movieRepository.GetMovie(movieId);
+            if (photo.Length > 0)
+             {
+                 using (var ms = new MemoryStream())
+                 {
+                     photo.CopyTo(ms);
+                     var fileBytes = ms.ToArray();
+                     movie.Photo = fileBytes;
+                 }
+             }
+
+            if (!_movieRepository.UpdateMovie(movie))
+            {
+                ModelState.AddModelError("message", "Photo can not be uploaded");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Photo Uploaded successfully");
+        }
+
+        [HttpDelete("photo/{movieId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult DeletePhoto(int movieId)
+        {
+            if (movieId < 0)
+                return BadRequest();
+
+            if (!_movieRepository.MovieExists(movieId))
+            {
+                ModelState.AddModelError("message", "Movie doesn't exists");
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var movie = _movieRepository.GetMovie(movieId);
+            movie.Photo = new MemoryStream().ToArray();
+
+            if (!_movieRepository.UpdateMovie(movie))
+            {
+                ModelState.AddModelError("message", "Photo can not be deleted");
                 return StatusCode(500, ModelState);
             }
 
