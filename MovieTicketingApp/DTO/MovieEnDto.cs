@@ -11,5 +11,7 @@
         public string LanguageEn { get; set; }
 
         public string Rating { get; set; }
+
+        public byte[] Photo { get; set; }
     }
 }

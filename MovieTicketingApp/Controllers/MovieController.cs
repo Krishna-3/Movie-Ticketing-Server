@@ -38,6 +38,11 @@ namespace MovieTicketingApp.Controllers
             var city = _state.GetLocation();
             var movies =_movieRepository.GetMovies(city);
 
+            foreach(var movie in movies)
+            {
+                movie.Photo = GetImage(Convert.ToBase64String(movie.Photo));
+            }
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -61,6 +66,18 @@ namespace MovieTicketingApp.Controllers
 
                 return Ok(enMovies);
             }
+        }
+
+        private static byte[] GetImage(string PhotoString)
+        {
+            byte[] bytes = null;
+
+            if (string.IsNullOrEmpty(PhotoString))
+            {
+                bytes = Convert.FromBase64String(PhotoString);
+            }
+
+            return bytes;
         }
 
         [HttpGet("{movieId}")]
@@ -113,8 +130,11 @@ namespace MovieTicketingApp.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult CreateMovie([FromBody] Movie movie)
+        public IActionResult CreateMovie([FromBody] MovieWithPhoto MovieWithPhoto)
         {
+            Movie movie = MovieWithPhoto.Movie;
+            var photo = MovieWithPhoto.file;
+
             if (movie == null)
                 return BadRequest();
 
@@ -126,6 +146,17 @@ namespace MovieTicketingApp.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            //photo upload
+            if (photo.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    photo.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    movie.Photo = fileBytes;
+                }
+            }
 
             if (!_movieRepository.CreateMovie(movie))
             {
