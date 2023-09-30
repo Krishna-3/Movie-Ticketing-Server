@@ -30,6 +30,6 @@ namespace MovieTicketingApp.Models
         [Range(1,5)]
         public float Rating{ get; set; }
 
-        public byte[] Photo { get; set; }   
+        public byte[] ?Photo { get; set; }   
     }
 }

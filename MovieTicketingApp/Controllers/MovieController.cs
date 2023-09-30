@@ -130,11 +130,8 @@ namespace MovieTicketingApp.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult CreateMovie([FromBody] MovieWithPhoto MovieWithPhoto)
+        public IActionResult CreateMovie([FromBody] Movie movie)
         {
-            Movie movie = MovieWithPhoto.Movie;
-            var photo = MovieWithPhoto.file;
-
             if (movie == null)
                 return BadRequest();
 
@@ -146,9 +143,11 @@ namespace MovieTicketingApp.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            
+            movie.Photo = new MemoryStream().ToArray();
 
             //photo upload
-            if (photo.Length > 0)
+           /* if (photo.Length > 0)
             {
                 using (var ms = new MemoryStream())
                 {
@@ -156,7 +155,7 @@ namespace MovieTicketingApp.Controllers
                     var fileBytes = ms.ToArray();
                     movie.Photo = fileBytes;
                 }
-            }
+            } */
 
             if (!_movieRepository.CreateMovie(movie))
             {
