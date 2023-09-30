@@ -12,11 +12,13 @@ namespace MovieTicketingApp.Controllers
     {
         private readonly IMovieLocationRepository _movieLocationRepository;
         private readonly IMapper _mapper;
+        private readonly IMovieTheatreRepository _movieTheatreRepository;
 
-        public MovieLocationController(IMovieLocationRepository movieLocationRepository, IMapper mapper)
+        public MovieLocationController(IMovieLocationRepository movieLocationRepository, IMapper mapper, IMovieTheatreRepository movieTheatreRepository)
         {
             _movieLocationRepository = movieLocationRepository;
             _mapper = mapper;
+            _movieTheatreRepository = movieTheatreRepository;
         }
 
         [HttpGet]
@@ -76,6 +78,12 @@ namespace MovieTicketingApp.Controllers
                 return BadRequest(ModelState);
 
             var movieLocation = _movieLocationRepository.GetMovieLocation(movieLocationId);
+            var movieTheatres = _movieTheatreRepository.GetMovieTheatresForLocation(movieLocation.LocationId);
+
+            if (movieTheatres != null)
+            {
+                _movieTheatreRepository.DeleteMovieTheatres(movieTheatres);
+            }
 
             if (!_movieLocationRepository.DeleteMovieLocation(movieLocation))
             {

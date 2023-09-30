@@ -7,11 +7,15 @@ namespace MovieTicketingApp.Interfaces
     {
         IEnumerable<MovieTheatre> GetAllMovieTheatres();
 
+        IEnumerable<MovieTheatre> GetMovieTheatresForLocation(int locationId);
+
         MovieTheatre GetMovieTheatre(int id);
 
         bool CreateMovieTheatre(MovieTheatre movieTheatre);
 
         bool DeleteMovieTheatre(MovieTheatre movieTheatre);
+
+        bool DeleteMovieTheatres(IEnumerable<MovieTheatre> movieTheatre);
 
         bool MovieTheatreExists(MovieTheatreDto movieTheatreDto);
 

@@ -55,10 +55,22 @@ namespace MovieTicketingApp.Controllers
             if (time == null)
                 return BadRequest();
 
-            string dateTime=date + ", " + time;
-            string format = "d-M-yyyy, h:mm tt";
+            string dateTime = date+", "+time;
+
+            if (dateTime == null)
+                return BadRequest(dateTime);
+
+            string format = "dd-MM-yyyy, h:mmtt";
 
             DateTime.TryParseExact(dateTime, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result);
+
+            var now = DateTime.Now;
+
+            if (now > result)
+            {
+                ModelState.AddModelError("message", "can not buy ticket for that time");
+                return BadRequest(ModelState);
+            }
 
             if (_ticketRepository.TicketExists(ticketId, result))
             {

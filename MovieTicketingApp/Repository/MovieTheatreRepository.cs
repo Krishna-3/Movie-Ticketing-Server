@@ -29,6 +29,13 @@ namespace MovieTicketingApp.Repository
             return Save();
         }
 
+        public bool DeleteMovieTheatres(IEnumerable<MovieTheatre> movieTheatres)
+        {
+            _context.RemoveRange(movieTheatres);
+
+            return Save();
+        }
+
         public IEnumerable<MovieTheatre> GetAllMovieTheatres()
         {
             return _context.MovieTheatres.Include(mt => mt.Movie).Include(mt => mt.Theatre).ToList();
@@ -37,6 +44,13 @@ namespace MovieTicketingApp.Repository
         public MovieTheatre GetMovieTheatre(int id)
         {
             return _context.MovieTheatres.First(mt => mt.Id == id);
+        }
+
+        public IEnumerable<MovieTheatre> GetMovieTheatresForLocation(int locationId)
+        {
+            var movieTheatres = _context.MovieTheatres.Where(mt => mt.Theatre.LocationId == locationId);
+
+            return movieTheatres;
         }
 
         public bool MovieTheatreExists(MovieTheatreDto movieTheatreDto)
