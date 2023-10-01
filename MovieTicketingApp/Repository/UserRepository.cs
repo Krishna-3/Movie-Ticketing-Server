@@ -36,6 +36,13 @@ namespace MovieTicketingApp.Repository
             return user;
         }
 
+        public User GetUser(string username)
+        {
+            var user = _context.Users.First(u => u.Username == username);
+
+            return user;
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
@@ -55,7 +62,7 @@ namespace MovieTicketingApp.Repository
             var userExists = _context.Users.FirstOrDefault(u => u.Username == user.Username);
             var mailExists = _context.Users.FirstOrDefault(m => m.Email == user.Email);  
             
-            if (userExists == null || mailExists == null) 
+            if (userExists == null && mailExists == null) 
                 return false;
 
             return true;
