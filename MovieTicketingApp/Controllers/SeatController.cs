@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
@@ -16,6 +17,7 @@ namespace MovieTicketingApp.Controllers
             _seatRepository = seatRepository;
         }
 
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Seat>))]
         [ProducesResponseType(400)]

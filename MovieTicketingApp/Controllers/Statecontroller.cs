@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.Interfaces;
 
@@ -17,6 +18,7 @@ namespace MovieTicketingApp.Controllers
             _location = location;
         }
 
+        [Authorize]
         [HttpPost("language")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -43,6 +45,7 @@ namespace MovieTicketingApp.Controllers
             return Ok("Successfully langauge selected");
         }
 
+        [Authorize]
         [HttpPost("location")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

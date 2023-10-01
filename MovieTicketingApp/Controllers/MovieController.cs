@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.DTO;
@@ -22,6 +23,7 @@ namespace MovieTicketingApp.Controllers
             _state = state;
         }
 
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<MovieEnDto>))]
         [ProducesResponseType(200, Type = typeof(IEnumerable<MovieTeDto>))]
@@ -80,6 +82,7 @@ namespace MovieTicketingApp.Controllers
             return bytes;
         }
 
+        [Authorize]
         [HttpGet("{movieId}")]
         [ProducesResponseType(200, Type = typeof(MovieEnDto))]
         [ProducesResponseType(200, Type = typeof(MovieTeDto))]
@@ -119,6 +122,7 @@ namespace MovieTicketingApp.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Movie>))]
         [ProducesResponseType(400)]
@@ -129,6 +133,7 @@ namespace MovieTicketingApp.Controllers
             return Ok(movies);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -157,6 +162,7 @@ namespace MovieTicketingApp.Controllers
             return Ok("Successfully movie created");
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPatch("title/{movieId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -192,6 +198,7 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPatch("description/{movieId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -227,6 +234,7 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPatch("language/{movieId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -262,6 +270,7 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPatch("rating/{movieId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -295,6 +304,7 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{movieId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -324,6 +334,7 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost("photo/{movieId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -367,6 +378,7 @@ namespace MovieTicketingApp.Controllers
             return Ok("Photo Uploaded successfully");
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("photo/{movieId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

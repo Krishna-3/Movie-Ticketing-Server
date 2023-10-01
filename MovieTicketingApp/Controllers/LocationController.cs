@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
@@ -16,6 +17,7 @@ namespace MovieTicketingApp.Controllers
             _locationRepository = locationRepository;
         }
 
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Location>))]
         [ProducesResponseType(400)]
@@ -29,6 +31,7 @@ namespace MovieTicketingApp.Controllers
             return Ok(locations);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -55,7 +58,8 @@ namespace MovieTicketingApp.Controllers
             return Ok("Successfully Location created");
         }
 
-        [HttpPut("location/{locationId}")]
+        [Authorize(Roles = "admin")]
+        [HttpPut("{locationId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -94,6 +98,7 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{locationId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

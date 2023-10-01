@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
@@ -24,6 +25,7 @@ namespace MovieTicketingApp.Controllers
             _theatreRepository = theatreRepository;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -34,6 +36,7 @@ namespace MovieTicketingApp.Controllers
             return Ok(movieLocations);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -76,6 +79,7 @@ namespace MovieTicketingApp.Controllers
             return Ok("Successfully movie-theatre created");
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{movieTheatreId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.DTO;
@@ -23,6 +24,7 @@ namespace MovieTicketingApp.Controllers
             _stateRepository = stateRepository;
         }
 
+        [Authorize]
         [HttpGet("{userId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -41,6 +43,7 @@ namespace MovieTicketingApp.Controllers
             return Ok(ticketsMap);
         }
 
+        [Authorize]
         [HttpPost("{timeId}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]

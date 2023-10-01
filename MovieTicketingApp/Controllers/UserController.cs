@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.DTO;
@@ -12,40 +13,13 @@ namespace MovieTicketingApp.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
 
-        public UserController(IUserRepository userRepository,IMapper mapper)
+        public UserController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
         }
 
-        [HttpPost]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public IActionResult CreateUser([FromBody] User user)
-        {
-            if(user == null) 
-                return BadRequest();
-
-            if (_userRepository.UserExists(user))
-            {
-                ModelState.AddModelError("message", "User already exists");
-                return BadRequest(ModelState);
-            }
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (!_userRepository.CreateUser(user))
-            {
-                ModelState.AddModelError("message", "user can not be created");
-                return StatusCode(500, ModelState);
-            }
-
-            return Ok("Successfully user created");
-        }
-
+        [Authorize]
         [HttpPatch("username/{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -85,6 +59,7 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPatch("password/{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -132,6 +107,7 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete("{userId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

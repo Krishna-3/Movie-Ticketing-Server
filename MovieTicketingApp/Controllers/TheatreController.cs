@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.DTO;
@@ -27,6 +28,7 @@ namespace MovieTicketingApp.Controllers
             _locationRepository = locationRepository;
         }
 
+        [Authorize]
         [HttpGet("movie/{movieId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreEnDto>))]
         [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreTeDto>))]
@@ -75,6 +77,7 @@ namespace MovieTicketingApp.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("theatre/{theatreId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreEnDto>))]
         [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreTeDto>))]
@@ -117,6 +120,7 @@ namespace MovieTicketingApp.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Theatre>))]
         [ProducesResponseType(400)]
@@ -127,6 +131,7 @@ namespace MovieTicketingApp.Controllers
             return Ok(theatres);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -162,6 +167,7 @@ namespace MovieTicketingApp.Controllers
             return Ok("Successfully theatre created");
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPatch("name/{theatreId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -197,6 +203,7 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPatch("location/{theatreId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -230,6 +237,7 @@ namespace MovieTicketingApp.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{theatreId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
