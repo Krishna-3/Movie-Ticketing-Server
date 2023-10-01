@@ -1,8 +1,15 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using MovieTicketingApp.Authentication.Models;
 using MovieTicketingApp.Data;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
 using MovieTicketingApp.Repository;
+using MovieTicketingApp.Services.PasswordHasher;
+using MovieTicketingApp.Services.TokenGenerators;
+using MovieTicketingApp.Services.TokenValidators;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +22,25 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://google.com",
-                              "null");
+                          policy.WithOrigins("null");
                       });
+});
+
+AuthenticationConfiguraiton authenticationConfiguration = new();
+builder.Configuration.Bind("Authentication", authenticationConfiguration);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(jwt =>
+{
+    jwt.TokenValidationParameters = new TokenValidationParameters()
+    {
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessTokenSecret)),
+        ValidIssuer = authenticationConfiguration.Issuer,
+        ValidAudience = authenticationConfiguration.Audience,
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ClockSkew = TimeSpan.Zero
+    };
 });
 
 builder.Services.AddControllers();
@@ -30,7 +53,13 @@ builder.Services.AddScoped<ISeatRepository,SeatRepository>();
 builder.Services.AddScoped<ITicketRepository,TicketRepository>();
 builder.Services.AddScoped<IMovieLocationRepository,MovieLocationRepository>();
 builder.Services.AddScoped<IMovieTheatreRepository,MovieTheatreRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository,RefreshTokenRepository>();
 builder.Services.AddSingleton<IStateRepository,StateRepository>();
+builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+builder.Services.AddSingleton(authenticationConfiguration);
+builder.Services.AddSingleton<AccessTokenGenerator>();
+builder.Services.AddSingleton<RefreshTokenGenerator>();
+builder.Services.AddSingleton<RefreshTokenValidator>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -52,6 +81,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors(MyAllowSpecificOrigins); 
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
