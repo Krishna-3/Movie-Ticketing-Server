@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MovieTicketingApp.Authentication.Models;
 using MovieTicketingApp.DTO;
 using MovieTicketingApp.Models;
 
@@ -20,6 +21,8 @@ namespace MovieTicketingApp.Helper
             CreateMap<MovieLocationDto, MovieLocation>();
             CreateMap<MovieTheatreDto, MovieTheatre>();
             CreateMap<TicketId, Ticket>();
+            CreateMap<UserRegister, User>();
+            CreateMap<UserLogin, User>();
         }
     }
 }
