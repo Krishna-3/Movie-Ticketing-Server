@@ -12,6 +12,8 @@ namespace MovieTicketingApp.Interfaces
 
         User GetUser(int userId);
 
+        User GetUser(string username);
+
         bool CreateUser(User user);
 
         bool UpdateUser(User user);
