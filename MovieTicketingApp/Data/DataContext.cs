@@ -27,6 +27,8 @@ namespace MovieTicketingApp.Data
 
         public DbSet<MovieTheatre> MovieTheatres { get; set; }
 
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MovieLocation>()
@@ -92,6 +94,14 @@ namespace MovieTicketingApp.Data
 
             modelBuilder.Entity<User>()
                .HasKey(t => t.Id);
+
+            modelBuilder.Entity<RefreshToken>()
+                .HasKey(t => t.Id);
+
+            modelBuilder.Entity<RefreshToken>()
+                .HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId);
         }
     }
 } 
