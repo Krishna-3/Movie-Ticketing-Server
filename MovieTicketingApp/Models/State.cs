@@ -13,10 +13,16 @@ namespace MovieTicketingApp.Models
         };
         public readonly List<string> LanguageCode = new(){ "en", "hi", "te"};
 
+        public int Id {  get; set; }
+
         [RegularExpression("^[a-zA-Z]{2,2}$")]
-        public string preferredLanguage{ get; set; }
+        public string preferredLanguage{ get; set; } = "en";
 
         [RegularExpression("^[a-zA-Z]{2,29}$")]
-        public string selectedLocation {  get; set; }   
+        public string selectedLocation {  get; set; }
+        
+        public int UserId { get; set; }
+
+        public User User { get; set; }
     }
 }
