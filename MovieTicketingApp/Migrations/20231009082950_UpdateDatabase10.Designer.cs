@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieTicketingApp.Data;
 
@@ -11,9 +12,11 @@ using MovieTicketingApp.Data;
 namespace MovieTicketingApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231009082950_UpdateDatabase10")]
+    partial class UpdateDatabase10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace MovieTicketingApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("MovieTicketingApp.Models.Movie", b =>
@@ -91,7 +94,7 @@ namespace MovieTicketingApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies", (string)null);
+                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("MovieTicketingApp.Models.MovieLocation", b =>
@@ -114,7 +117,7 @@ namespace MovieTicketingApp.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("MovieLocations", (string)null);
+                    b.ToTable("MovieLocations");
                 });
 
             modelBuilder.Entity("MovieTicketingApp.Models.MovieTheatre", b =>
@@ -137,7 +140,7 @@ namespace MovieTicketingApp.Migrations
 
                     b.HasIndex("TheatreId");
 
-                    b.ToTable("MovieTheatres", (string)null);
+                    b.ToTable("MovieTheatres");
                 });
 
             modelBuilder.Entity("MovieTicketingApp.Models.RefreshToken", b =>
@@ -159,7 +162,7 @@ namespace MovieTicketingApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens", (string)null);
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("MovieTicketingApp.Models.Seat", b =>
@@ -176,7 +179,7 @@ namespace MovieTicketingApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Seats", (string)null);
+                    b.ToTable("Seats");
                 });
 
             modelBuilder.Entity("MovieTicketingApp.Models.State", b =>
@@ -202,7 +205,7 @@ namespace MovieTicketingApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("States", (string)null);
+                    b.ToTable("States");
                 });
 
             modelBuilder.Entity("MovieTicketingApp.Models.Theatre", b =>
@@ -232,7 +235,7 @@ namespace MovieTicketingApp.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Theatres", (string)null);
+                    b.ToTable("Theatres");
                 });
 
             modelBuilder.Entity("MovieTicketingApp.Models.Ticket", b =>
@@ -263,7 +266,7 @@ namespace MovieTicketingApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Tickets", (string)null);
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("MovieTicketingApp.Models.User", b =>
@@ -292,7 +295,7 @@ namespace MovieTicketingApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MovieTicketingApp.Models.MovieLocation", b =>

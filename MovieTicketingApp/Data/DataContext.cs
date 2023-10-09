@@ -29,6 +29,8 @@ namespace MovieTicketingApp.Data
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
+        public DbSet<State> States { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MovieLocation>()
@@ -97,6 +99,14 @@ namespace MovieTicketingApp.Data
 
             modelBuilder.Entity<RefreshToken>()
                 .HasKey(t => t.Id);
+            
+            modelBuilder.Entity<State>()
+                .HasKey(s => s.Id);
+
+            modelBuilder.Entity<State>()
+                .HasOne(s => s.User)
+                .WithMany()
+                .HasForeignKey(s => s.UserId);
 
             modelBuilder.Entity<RefreshToken>()
                 .HasOne(r => r.User)
