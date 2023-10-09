@@ -4,16 +4,20 @@ namespace MovieTicketingApp.Interfaces
 {
     public interface IStateRepository
     {
-        string GetLanguage();
+        State GetState(int userId);
 
-        string GetLocation();
+        bool CreateState(int userId);
 
         List<string> GetAllowedLanguageCodes();
 
         Dictionary<string, string> GetTimings();
 
-        void SetLanguage(string language);
+        bool SetLanguage(string language, int userId);
 
-        void SetLocation(string location);
+        bool SetLocation(string location, int userId);
+
+        bool StateExists(int userId);
+
+        bool Save();
     }
 }
