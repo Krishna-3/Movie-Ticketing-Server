@@ -54,7 +54,7 @@ builder.Services.AddScoped<ITicketRepository,TicketRepository>();
 builder.Services.AddScoped<IMovieLocationRepository,MovieLocationRepository>();
 builder.Services.AddScoped<IMovieTheatreRepository,MovieTheatreRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository,RefreshTokenRepository>();
-builder.Services.AddSingleton<IStateRepository,StateRepository>();
+builder.Services.AddScoped<IStateRepository,StateRepository>();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddSingleton(authenticationConfiguration);
 builder.Services.AddSingleton<AccessTokenGenerator>();
@@ -63,7 +63,7 @@ builder.Services.AddSingleton<RefreshTokenValidator>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<State>();
+builder.Services.AddScoped<State>();
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
