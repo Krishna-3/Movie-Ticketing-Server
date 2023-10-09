@@ -24,9 +24,9 @@ namespace MovieTicketingApp.Services.TokenGenerators
             List<Claim> claims = new()
             {
                 new Claim("Id", user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim("Email", user.Email),
+                new Claim("Name", user.Username),
+                new Claim("Role", user.Role)
             };
 
             JwtSecurityToken token = new(
