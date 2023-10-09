@@ -111,6 +111,16 @@ namespace MovieTicketingApp.Controllers
             RefreshToken refreshTokenDto = new();
             refreshTokenDto.User = user;
             refreshTokenDto.Token = refreshToken;
+            IEnumerable<RefreshToken> refreshTokens = _refreshTokenRepository.GetAllRefreshTokens(refreshTokenDto.UserId);
+
+            if (refreshTokens.Any())
+            {
+                if (!_refreshTokenRepository.DeleteAllRefreshToken(refreshTokens))
+                {
+                    ModelState.AddModelError("message", "Tokens can not be deleted");
+                    return BadRequest(ModelState);
+                }
+            }
 
             if (!_refreshTokenRepository.AddRefreshToken(refreshTokenDto))
             {
