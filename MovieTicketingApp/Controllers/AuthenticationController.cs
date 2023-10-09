@@ -42,7 +42,7 @@ namespace MovieTicketingApp.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("Register")]
+        [HttpPost("register")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public IActionResult Register([FromBody] UserRegister userRegister)
@@ -80,7 +80,7 @@ namespace MovieTicketingApp.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("Login")]
+        [HttpPost("login")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public IActionResult Login([FromBody] UserLogin userLogin)
@@ -126,7 +126,7 @@ namespace MovieTicketingApp.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("Refresh")]
+        [HttpPost("refresh")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public IActionResult Refresh([FromBody] RefreshTokenString refreshTokenString) 
@@ -189,7 +189,7 @@ namespace MovieTicketingApp.Controllers
         }
 
         [Authorize]
-        [HttpPost("Logout")]
+        [HttpPost("logout")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public IActionResult Logout([FromBody] RefreshTokenString refreshTokenString)
