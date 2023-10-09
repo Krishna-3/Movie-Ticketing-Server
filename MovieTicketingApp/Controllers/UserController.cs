@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
+using System.Security.Claims;
 
 namespace MovieTicketingApp.Controllers
 {
@@ -114,6 +115,13 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(404)]
         public IActionResult DeleteUser(int userId)
         {
+            int id = Int32.Parse(HttpContext.User.FindFirstValue("Id"));
+
+            if (id == userId)
+            {
+                return Unauthorized();
+            }
+
             if (userId < 0)
                 return BadRequest();
 
