@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
+using System.Security.Claims;
 
 namespace MovieTicketingApp.Controllers
 {
@@ -14,16 +15,16 @@ namespace MovieTicketingApp.Controllers
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IMapper _mapper;
-        private readonly IStateRepository _state;
+        private readonly IStateRepository _stateRepository;
 
-        public MovieController(IMovieRepository movieRepository, IMapper mapper, IStateRepository state)
+        public MovieController(IMovieRepository movieRepository, IMapper mapper, IStateRepository stateRepository)
         {
             _movieRepository = movieRepository;
             _mapper = mapper;
-            _state = state;
+            _stateRepository = stateRepository;
         }
 
-        [Authorize]
+[AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<MovieEnDto>))]
         [ProducesResponseType(200, Type = typeof(IEnumerable<MovieTeDto>))]
@@ -31,13 +32,15 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetMovies()
         {
-            if (_state.GetLocation().IsNullOrEmpty())
+            int userId = Int32.Parse(HttpContext.User.FindFirstValue("Id"));
+
+            if (!_stateRepository.StateExists(userId) || _stateRepository.GetState(userId).selectedLocation.IsNullOrEmpty())
             {
                 ModelState.AddModelError("message", "Please select a location");
                 return BadRequest(ModelState);
             }
 
-            var city = _state.GetLocation();
+            var city = _stateRepository.GetState(userId).selectedLocation;
             var movies =_movieRepository.GetMovies(city);
 
             foreach(var movie in movies)
@@ -48,7 +51,7 @@ namespace MovieTicketingApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var language = _state.GetLanguage();
+            var language = _stateRepository.GetState(userId).preferredLanguage;
 
             if (language == "te")
             {
@@ -90,6 +93,7 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetMovieById(int movieId)
         {
+            int userId = Int32.Parse(HttpContext.User.FindFirstValue("Id"));
             var movie = _movieRepository.GetMovie(movieId);
 
             if (movie == null)
@@ -98,7 +102,7 @@ namespace MovieTicketingApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var language = _state.GetLanguage();
+            var language = _stateRepository.GetState(userId).preferredLanguage;
 
             movie.Photo = GetImage(Convert.ToBase64String(movie.Photo));
 

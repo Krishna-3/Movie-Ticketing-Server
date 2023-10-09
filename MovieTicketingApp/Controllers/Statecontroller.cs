@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.Interfaces;
+using MovieTicketingApp.Models;
+using System.Security.Claims;
 
 namespace MovieTicketingApp.Controllers
 {
@@ -9,27 +11,30 @@ namespace MovieTicketingApp.Controllers
     [ApiController]
     public class Statecontroller : ControllerBase
     {
-        private readonly IStateRepository _state;
+        private readonly IStateRepository _stateRepository;
         private readonly ILocationRepository _location;
 
-        public Statecontroller(IStateRepository state, ILocationRepository location)
+        public Statecontroller(IStateRepository stateRepository, ILocationRepository location)
         {
-            _state = state;
+            _stateRepository = stateRepository;
             _location = location;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost("language")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult SelectLanguage ([FromBody] string languageCode)
+        public IActionResult SelectLanguage ([FromQuery] string languageCode)
         {
-            _state.SetLanguage("en");
+            int userId = Int32.Parse(HttpContext.User.FindFirstValue("Id"));
 
             if (languageCode.IsNullOrEmpty())
                 return BadRequest();
 
-            var allowedCodes = _state.GetAllowedLanguageCodes();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var allowedCodes = _stateRepository.GetAllowedLanguageCodes();
 
             if (!allowedCodes.Contains(languageCode))
             {
@@ -37,20 +42,29 @@ namespace MovieTicketingApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!_stateRepository.StateExists(userId))
+            {
+                if (!_stateRepository.CreateState(userId))
+                {
+                    ModelState.AddModelError("message", "Can't select language");
+                    return BadRequest(ModelState);
+                }
+            }
 
-            _state.SetLanguage(languageCode);
+            if (!_stateRepository.SetLanguage(languageCode, userId))
+                return BadRequest(ModelState);
 
             return Ok("Successfully langauge selected");
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost("location")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult SelectLocation ([FromBody] string city)
+        public IActionResult SelectLocation ([FromQuery] string city)
         {
+            int userId = Int32.Parse(HttpContext.User.FindFirstValue("Id"));
+
             if (city.IsNullOrEmpty())
                 return BadRequest();
 
@@ -63,7 +77,16 @@ namespace MovieTicketingApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            _state.SetLocation(city);
+            if (!_stateRepository.StateExists(userId))
+            {
+                if (!_stateRepository.CreateState(userId))
+                {
+                    ModelState.AddModelError("message", "Can't select location");
+                    return BadRequest(ModelState);
+                }
+            }
+
+            _stateRepository.SetLocation(city, userId);
 
             return Ok("Successfully location selected");
         }
