@@ -125,7 +125,7 @@ namespace MovieTicketingApp.Controllers
             });
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost("Refresh")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
