@@ -24,7 +24,7 @@ namespace MovieTicketingApp.Controllers
             _stateRepository = stateRepository;
         }
 
-[AllowAnonymous]
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<MovieEnDto>))]
         [ProducesResponseType(200, Type = typeof(IEnumerable<MovieTeDto>))]

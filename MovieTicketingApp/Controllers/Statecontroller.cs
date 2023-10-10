@@ -20,7 +20,7 @@ namespace MovieTicketingApp.Controllers
             _location = location;
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("language")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -57,7 +57,7 @@ namespace MovieTicketingApp.Controllers
             return Ok("Successfully langauge selected");
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("location")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
