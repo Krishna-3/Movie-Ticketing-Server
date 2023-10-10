@@ -188,13 +188,10 @@ namespace MovieTicketingApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            UserDto userDto = _mapper.Map<UserDto>(user);
-
             return Ok(new AuthenticatedUser()
             {
                 AccessToken = accessToken,
                 RefreshToken = newRefreshTokenString,
-                User = userDto
             });
         }
 
