@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
 using System.Security.Claims;
@@ -54,7 +55,10 @@ namespace MovieTicketingApp.Controllers
             if (!_stateRepository.SetLanguage(languageCode, userId))
                 return BadRequest(ModelState);
 
-            return Ok("Successfully langauge selected");
+            return Ok(new Response()
+            {
+                Success= "Successfully langauge selected"
+            });
         }
 
         [Authorize]
@@ -88,7 +92,10 @@ namespace MovieTicketingApp.Controllers
 
             _stateRepository.SetLocation(city, userId);
 
-            return Ok("Successfully location selected");
+            return Ok(new Response()
+            {
+                Success= "Successfully location selected"
+            });
         }
     }
 }

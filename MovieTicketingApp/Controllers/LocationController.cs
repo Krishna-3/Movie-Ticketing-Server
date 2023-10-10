@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
 
@@ -55,7 +56,10 @@ namespace MovieTicketingApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully Location created");
+            return Ok(new Response()
+            {
+                Success= "Successfully Location created"
+            });
         }
 
         [Authorize(Roles = "admin")]

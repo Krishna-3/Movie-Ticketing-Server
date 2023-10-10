@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
-using MovieTicketingApp.Repository;
 
 namespace MovieTicketingApp.Controllers
 {
@@ -76,7 +75,10 @@ namespace MovieTicketingApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully movie-theatre created");
+            return Ok(new Response()
+            {
+                Success= "Successfully movie-theatre created"
+            });
         }
 
         [Authorize(Roles = "admin")]

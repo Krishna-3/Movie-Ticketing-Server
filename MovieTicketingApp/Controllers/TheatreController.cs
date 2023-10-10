@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
-using MovieTicketingApp.Repository;
 using System.Security.Claims;
 
 namespace MovieTicketingApp.Controllers
@@ -168,7 +167,10 @@ namespace MovieTicketingApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully theatre created");
+            return Ok(new Response()
+            {
+                Success= "Successfully theatre created"
+            });
         }
 
         [Authorize(Roles = "admin")]

@@ -163,7 +163,10 @@ namespace MovieTicketingApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully movie created");
+            return Ok(new Response()
+            {
+                Success= "Successfully movie created"
+            });
         }
 
         [Authorize(Roles = "admin")]
@@ -379,7 +382,10 @@ namespace MovieTicketingApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Photo Uploaded successfully");
+            return Ok(new Response()
+            {
+                Success= "Photo Uploaded successfully"
+            });
         }
 
         [Authorize(Roles = "admin")]

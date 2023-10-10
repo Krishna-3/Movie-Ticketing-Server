@@ -93,7 +93,10 @@ namespace MovieTicketingApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully ticket created");
+            return Ok(new Response()
+            {
+                Success= "Successfully ticket created"
+            });
         }
     }
 }
