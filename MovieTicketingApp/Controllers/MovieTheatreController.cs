@@ -30,9 +30,9 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetAllMovieTheatres()
         {
-            var movieLocations = _movieTheatreRepository.GetAllMovieTheatres();
+            var movieTheatres = _movieTheatreRepository.GetAllMovieTheatres();
 
-            return Ok(movieLocations);
+            return Ok(movieTheatres);
         }
 
         [Authorize(Roles = "admin")]
