@@ -13,7 +13,7 @@ namespace MovieTicketingApp.Models
 
         public string TitleTe{ get; set; }
 
-        [RegularExpression("^[a-zA-Z 0-9]{2,}$")]
+        [RegularExpression("^[a-zA-Z,. 0-9]{2,}$")]
         public string DescriptionEn{ get; set; }
 
         public string DescriptionHi{ get; set; }
