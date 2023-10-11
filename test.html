@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="file" id="i"></input>
+    <button onclick="upload()">fjjj</button>
+    <img id="img" src="" alt="h">
+    <button onclick="get()">get</button>
+
+</body>
+<script>
+    let result;
+    let upload = async () => {
+        let inp = document.getElementById("i");
+        const fd = new FormData();
+        fd.append('photo', inp.files[0]);
+
+        console.log(fd)
+
+        result = await fetch("https://localhost:7064/Movie/photo/3", {
+            method: "POST",
+            body: fd
+        })
+        let res = await result.string()
+        console.log(res)
+    }
+
+    let get = async () => {
+        let img = document.getElementById('img');
+
+
+        result = await fetch("https://localhost:7064/Movie/3")
+        let res = await result.json()
+
+        img.src = "data:image/jpg;base64," + res.photo;
+
+        console.log(res)
+    }
+
+</script>
+
+</html>

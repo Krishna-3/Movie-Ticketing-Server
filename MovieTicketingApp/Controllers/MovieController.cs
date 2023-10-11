@@ -45,7 +45,10 @@ namespace MovieTicketingApp.Controllers
 
             foreach(var movie in movies)
             {
-                movie.Photo = GetImage(Convert.ToBase64String(movie.Photo));
+                if (movie.Photo != null)
+                {
+                    movie.Photo = GetImage(Convert.ToBase64String(movie.Photo));
+                }
             }
 
             if (!ModelState.IsValid)
