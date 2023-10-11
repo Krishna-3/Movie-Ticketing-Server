@@ -111,7 +111,7 @@ namespace MovieTicketingApp.Controllers
             RefreshToken refreshTokenDto = new();
             refreshTokenDto.User = user;
             refreshTokenDto.Token = refreshToken;
-            IEnumerable<RefreshToken> refreshTokens = _refreshTokenRepository.GetAllRefreshTokens(refreshTokenDto.UserId);
+            IEnumerable<RefreshToken> refreshTokens = _refreshTokenRepository.GetAllRefreshTokens(user.Id);
 
             if (refreshTokens.Any())
             {
