@@ -24,7 +24,7 @@ namespace MovieTicketingApp.Services.TokenGenerators
                 _configuration.Audience,
                 null,
                 DateTime.UtcNow,
-                DateTime.UtcNow.AddMinutes(_configuration.RefreshTokenExpirationDays),
+                DateTime.UtcNow.AddDays(_configuration.RefreshTokenExpirationDays),
                 credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
