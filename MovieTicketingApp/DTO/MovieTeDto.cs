@@ -13,5 +13,7 @@
         public string Rating { get; set; }
 
         public byte[] Photo { get; set; }
+
+        public string Type { get; set; }
     }
 }

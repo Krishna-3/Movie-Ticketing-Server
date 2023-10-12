@@ -59,18 +59,30 @@ namespace MovieTicketingApp.Controllers
             if (language == "te")
             {
                 var teMovies = _mapper.Map<List<MovieTeDto>>(movies);
+                foreach (var item in teMovies)
+                {
+                    item.Type = language;
+                }
 
                 return Ok(teMovies);
             }
             else if (language == "hi")
             {
                 var hiMovies = _mapper.Map<List<MovieHiDto>>(movies);
+                foreach (var item in hiMovies)
+                {
+                    item.Type = language;
+                }
 
                 return Ok(hiMovies);
             }
             else
             {
                 var enMovies = _mapper.Map<List<MovieEnDto>>(movies);
+                foreach (var item in enMovies)
+                {
+                    item.Type = language;
+                }
 
                 return Ok(enMovies);
             }
