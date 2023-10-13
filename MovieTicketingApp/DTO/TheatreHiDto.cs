@@ -9,5 +9,7 @@ namespace MovieTicketingApp.DTO
         public string NameHi { get; set; }
 
         public Location Location { get; set; }
+
+        public string Type { get; set; }
     }
 }

@@ -63,11 +63,21 @@ namespace MovieTicketingApp.Controllers
             {
                 var teTheatres = _mapper.Map<List<TheatreTeDto>>(theatres);
 
+                foreach (var item in teTheatres)
+                {
+                    item.Type = language;
+                }
+
                 return Ok(teTheatres);
             }
             else if (language == "hi")
             {
                 var hiTheatres= _mapper.Map<List<TheatreHiDto>>(theatres);
+
+                foreach (var item in hiTheatres)
+                {
+                    item.Type = language;
+                }
 
                 return Ok(hiTheatres);
 
@@ -75,6 +85,11 @@ namespace MovieTicketingApp.Controllers
             else
             {
                 var enTheatres = _mapper.Map<List<TheatreEnDto>>(theatres);
+
+                foreach (var item in enTheatres)
+                {
+                    item.Type = language;
+                }
 
                 return Ok(enTheatres);
             }
