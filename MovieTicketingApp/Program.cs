@@ -24,8 +24,9 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy.WithOrigins("http://localhost:4200")
-                                .AllowAnyHeader()
-                                .WithMethods("GET", "POST", "PATCH", "PUT", "DELETE");
+                                            .AllowAnyHeader()
+                                            .WithMethods("GET", "POST", "PATCH", "PUT", "DELETE","OPTIONS");
+
                       });
 });
 
@@ -85,9 +86,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
-app.UseAuthorization();
-
 app.UseCors(MyAllowSpecificOrigins);
+
+app.UseAuthorization();
 
 app.MapControllers();
 
