@@ -46,8 +46,8 @@ namespace MovieTicketingApp.Repository
         public IEnumerable<Theatre> GetTheatresForMovie(int movieId, string city)
         {
             var theatres = _context.MovieTheatres.Where(mt => mt.MovieId == movieId && mt.Theatre.Location.City == city)
-                                                 .Select(mt => mt.Theatre)
-                                                 .Include(t => t.Location);
+                                                 .Include(mt => mt.Theatre.Location)
+                                                 .Select(mt => mt.Theatre);
 
             return theatres;
         }
