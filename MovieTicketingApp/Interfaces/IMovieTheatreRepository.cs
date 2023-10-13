@@ -21,6 +21,8 @@ namespace MovieTicketingApp.Interfaces
 
         bool MovieTheatreExists(int movieTheatreId);
 
+        int GetMovieTheatreId(int movieId, int theatreId);
+
         bool Save();
     }
 }

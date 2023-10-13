@@ -16,12 +16,14 @@ namespace MovieTicketingApp.Controllers
         private readonly ITicketRepository _ticketRepository;
         private readonly IMapper _mapper;
         private readonly IStateRepository _stateRepository;
+        private readonly IMovieTheatreRepository _movieTheatreRepository;
 
-        public TicketController(ITicketRepository ticketRepository, IMapper mapper, IStateRepository stateRepository)
+        public TicketController(ITicketRepository ticketRepository, IMapper mapper, IStateRepository stateRepository, IMovieTheatreRepository movieTheatreRepository)
         {
             _ticketRepository = ticketRepository;
             _mapper = mapper;
             _stateRepository = stateRepository;
+            _movieTheatreRepository = movieTheatreRepository;
         }
 
         [Authorize]
@@ -86,6 +88,7 @@ namespace MovieTicketingApp.Controllers
 
             var ticket = _mapper.Map<Ticket>(ticketId);
             ticket.Time = result;
+            ticket.MovieTheatreId = _movieTheatreRepository.GetMovieTheatreId(ticketId.MovieId,ticketId.TheatreId);
 
             if (!_ticketRepository.CreateTicket(ticket))
             {

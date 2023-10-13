@@ -48,7 +48,8 @@ namespace MovieTicketingApp.Repository
         public bool TicketExists(TicketId ticket, DateTime dateTime)
         {
             var ticketExists = _context.Tickets.FirstOrDefault(t => t.Time == dateTime &&
-                                                                    t.MovieTheatre.Id == ticket.MovieTheatreId &&
+                                                                    t.MovieTheatre.MovieId == ticket.MovieId&&
+                                                                    t.MovieTheatre.TheatreId == ticket.TheatreId&&
                                                                     t.Seat.Id == ticket.SeatId);
 
             if (ticketExists == null)

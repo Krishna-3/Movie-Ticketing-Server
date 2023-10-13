@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.Data;
 using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
@@ -44,6 +45,16 @@ namespace MovieTicketingApp.Repository
         public MovieTheatre GetMovieTheatre(int id)
         {
             return _context.MovieTheatres.First(mt => mt.Id == id);
+        }
+
+        public int GetMovieTheatreId(int movieId, int theatreId)
+        {
+            var mtId= _context.MovieTheatres.Where(mt => mt.MovieId == movieId && mt.TheatreId==theatreId)
+                                             .Select(mt=>mt.Id).ToString();
+            int Id=0;
+            if(!mtId.IsNullOrEmpty())
+                Id = int.Parse(mtId);
+            return Id;
         }
 
         public IEnumerable<MovieTheatre> GetMovieTheatresForLocation(int locationId)
