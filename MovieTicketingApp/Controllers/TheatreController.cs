@@ -57,7 +57,7 @@ namespace MovieTicketingApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var language = _stateRepository.GetState(userId).selectedLocation;
+            var language = _stateRepository.GetState(userId).preferredLanguage;
 
             if (language == "te")
             {
