@@ -40,9 +40,30 @@ namespace MovieTicketingApp.Controllers
                 return NotFound();
             }
 
+            for(int i = 0; i < tickets.Count(); i++)
+            {
+                var photo = tickets.ElementAt(0).MovieTheatre.Movie.Photo;
+                if (photo!= null)
+                {
+                    tickets.ElementAt(0).MovieTheatre.Movie.Photo = GetImage(Convert.ToBase64String(photo));
+                }
+            }
+
             var ticketsMap = _mapper.Map<List<TicketDto>>(tickets);
 
             return Ok(ticketsMap);
+        }
+
+        private static byte[] GetImage(string PhotoString)
+        {
+            byte[] bytes = null;
+
+            if (!string.IsNullOrEmpty(PhotoString))
+            {
+                bytes = Convert.FromBase64String(PhotoString);
+            }
+
+            return bytes;
         }
 
         [Authorize]

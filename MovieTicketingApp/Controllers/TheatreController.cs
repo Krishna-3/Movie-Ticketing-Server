@@ -95,49 +95,6 @@ namespace MovieTicketingApp.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("theatre/{theatreId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreEnDto>))]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreTeDto>))]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<TheatreHiDto>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetTheatre(int theatreId)
-        {
-            int userId = Int32.Parse(HttpContext.User.FindFirstValue("Id"));
-            var theatre = _theatreRepository.GetTheatre(theatreId);
-
-            if (theatre == null)
-            {
-                ModelState.AddModelError("message", "No Theatres");
-                return BadRequest(ModelState);
-            }
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var language = _stateRepository.GetState(userId).preferredLanguage;
-
-            if (language == "te")
-            {
-                var teTheatre = _mapper.Map<TheatreTeDto>(theatre);
-
-                return Ok(teTheatre);
-            }
-            else if (language == "hi")
-            {
-                var hiTheatre = _mapper.Map<TheatreHiDto>(theatre);
-
-                return Ok(hiTheatre);
-
-            }
-            else
-            {
-                var enTheatre = _mapper.Map<TheatreEnDto>(theatre);
-
-                return Ok(enTheatre);
-            }
-        }
-
         [Authorize(Roles = "admin")]
         [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Theatre>))]

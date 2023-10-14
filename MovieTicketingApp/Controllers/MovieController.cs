@@ -100,47 +100,6 @@ namespace MovieTicketingApp.Controllers
             return bytes;
         }
 
-        [Authorize]
-        [HttpGet("{movieId}")]
-        [ProducesResponseType(200, Type = typeof(MovieEnDto))]
-        [ProducesResponseType(200, Type = typeof(MovieTeDto))]
-        [ProducesResponseType(200, Type = typeof(MovieHiDto))]
-        [ProducesResponseType(400)]
-        public IActionResult GetMovieById(int movieId)
-        {
-            int userId = Int32.Parse(HttpContext.User.FindFirstValue("Id"));
-            var movie = _movieRepository.GetMovie(movieId);
-
-            if (movie == null)
-                return BadRequest();
-
-            if (!ModelState.IsValid)
-                return BadRequest();
-
-            var language = _stateRepository.GetState(userId).preferredLanguage;
-
-            movie.Photo = GetImage(Convert.ToBase64String(movie.Photo));
-
-            if (language == "te")
-            {
-                var teMovie = _mapper.Map<MovieTeDto>(movie);
-
-                return Ok(teMovie);
-            }
-            else if (language == "hi")
-            {
-                var hiMovie = _mapper.Map<MovieHiDto>(movie);
-
-                return Ok(hiMovie);
-            }
-            else
-            {
-                var enMovie = _mapper.Map<MovieEnDto>(movie);
-
-                return Ok(enMovie);
-            }
-        }
-
         [Authorize(Roles = "admin")]
         [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Movie>))]
