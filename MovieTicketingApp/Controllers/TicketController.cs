@@ -88,7 +88,7 @@ namespace MovieTicketingApp.Controllers
 
             var ticket = _mapper.Map<Ticket>(ticketId);
             ticket.Time = result;
-            ticket.MovieTheatreId = _movieTheatreRepository.GetMovieTheatreId(ticketId.MovieId,ticketId.TheatreId);
+            ticket.MovieTheatreId = _movieTheatreRepository.GetMovieTheatre(ticketId.MovieId,ticketId.TheatreId).Id;
 
             if (!_ticketRepository.CreateTicket(ticket))
             {
