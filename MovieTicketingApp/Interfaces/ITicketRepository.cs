@@ -13,6 +13,8 @@ namespace MovieTicketingApp.Interfaces
 
         bool TicketExists(TicketId ticket, DateTime dateTime);
 
+        IEnumerable<Ticket> GetBookedTickets(TicketId ticket, DateTime dateTime);
+
         bool Save();
     }
 }

@@ -29,6 +29,14 @@ namespace MovieTicketingApp.Repository
             return Save();
         }
 
+        public IEnumerable<Ticket> GetBookedTickets(TicketId ticket, DateTime dateTime)
+        {
+            IEnumerable<Ticket> tickets = _context.Tickets.Where(t => t.Time == dateTime &&
+                                                                    t.MovieTheatre.MovieId == ticket.MovieId &&
+                                                                    t.MovieTheatre.TheatreId == ticket.TheatreId);
+            return tickets;
+        }
+
         public IEnumerable<Ticket> GetTickets(int userId)
         {
             var tickets = _context.Tickets.Where(t => t.UserId == userId)
