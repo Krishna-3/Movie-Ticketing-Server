@@ -23,6 +23,7 @@ namespace MovieTicketingApp.Helper
             CreateMap<TicketId, Ticket>();
             CreateMap<UserRegister, User>();
             CreateMap<UserLogin, User>();
+            CreateMap<Seat, SeatDto>();
         }
     }
 }
