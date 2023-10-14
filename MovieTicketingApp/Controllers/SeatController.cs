@@ -65,9 +65,7 @@ namespace MovieTicketingApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var tickets = _ticketRepository.GetBookedTickets(ticketId,result);
-
-            
+            var tickets = _ticketRepository.GetBookedTickets(ticketId,result);            
 
             if (!tickets.IsNullOrEmpty())
             {
