@@ -47,14 +47,9 @@ namespace MovieTicketingApp.Repository
             return _context.MovieTheatres.First(mt => mt.Id == id);
         }
 
-        public int GetMovieTheatreId(int movieId, int theatreId)
+        public MovieTheatre GetMovieTheatre(int movieId, int theatreId)
         {
-            var mtId= _context.MovieTheatres.Where(mt => mt.MovieId == movieId && mt.TheatreId==theatreId)
-                                             .Select(mt=>mt.Id).ToString();
-            int Id=0;
-            if(!mtId.IsNullOrEmpty())
-                Id = int.Parse(mtId);
-            return Id;
+            return _context.MovieTheatres.First(mt => mt.MovieId == movieId && mt.TheatreId==theatreId);
         }
 
         public IEnumerable<MovieTheatre> GetMovieTheatresForLocation(int locationId)
