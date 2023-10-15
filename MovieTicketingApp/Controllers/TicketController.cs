@@ -70,7 +70,7 @@ namespace MovieTicketingApp.Controllers
         [HttpPost("{timeId}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult CreateTicket(int timeId, [FromBody] TicketId ticketId, [FromQuery] string date, [FromQuery]int[] seats)
+        public IActionResult CreateTicket(int timeId, [FromBody] TicketId ticketId, [FromQuery] string date, [FromQuery]string seats)
         {
             if (ticketId == null || timeId < 1 || timeId > 4 || date == null)
                 return BadRequest();
@@ -111,8 +111,9 @@ namespace MovieTicketingApp.Controllers
             ticket.Time = result;
             ticket.MovieTheatreId = _movieTheatreRepository.GetMovieTheatre(ticketId.MovieId,ticketId.TheatreId).Id;
 
-            foreach(var seat in seats) {
-                ticket.SeatId = seat;
+            foreach(var seat in seats.Split(',')) {
+                ticket.Id = 0;
+                ticket.SeatId = int.Parse(seat);
                 if (!_ticketRepository.CreateTicket(ticket))
                 {
                     ModelState.AddModelError("message", "Ticket can not be created");
