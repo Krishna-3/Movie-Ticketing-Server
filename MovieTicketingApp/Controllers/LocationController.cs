@@ -63,12 +63,15 @@ namespace MovieTicketingApp.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("{locationId}")]
+        [HttpPut]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateLocation(int locationId, [FromBody] string city)
+        public IActionResult UpdateLocation( [FromBody] Location newLocation)
         {
+            var locationId = newLocation.Id;
+            var city= newLocation.City;
+
             if (locationId < 0)
                 return BadRequest();
 
