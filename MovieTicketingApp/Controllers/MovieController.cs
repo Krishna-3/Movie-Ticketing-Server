@@ -256,7 +256,7 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateMovieRating(int movieId, [FromBody] float rating)
+        public IActionResult UpdateMovieRating(int movieId, [FromQuery] float rating)
         {
             if (movieId < 0)
                 return BadRequest();
