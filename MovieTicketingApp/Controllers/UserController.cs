@@ -25,7 +25,7 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateUsername(int userId, [FromBody] string username)
+        public IActionResult UpdateUsername(int userId, [FromQuery] string username)
         {
             if (userId < 0)
                 return BadRequest();
