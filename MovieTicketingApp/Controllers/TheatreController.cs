@@ -186,7 +186,7 @@ namespace MovieTicketingApp.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateTheatreLocation(int theatreId, [FromBody] int locationId)
+        public IActionResult UpdateTheatreLocation(int theatreId, [FromQuery] int locationId)
         {
             if (theatreId < 0 || locationId < 0)
                 return BadRequest();
