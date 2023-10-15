@@ -32,7 +32,7 @@ namespace MovieTicketingApp.Repository
 
         public IEnumerable<Theatre> GetAllTheatres()
         {
-            return _context.Theatres.Include(t => t.Location);
+            return _context.Theatres;
         }
 
         public Theatre GetTheatre(int theatreId)
