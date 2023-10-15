@@ -39,7 +39,7 @@ namespace MovieTicketingApp.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult CreateMovieTheatre(MovieTheatreDto movieTheatreDto)
+        public IActionResult CreateMovieTheatre([FromBody]MovieTheatreDto movieTheatreDto)
         {
             if (movieTheatreDto == null)
                 return BadRequest();

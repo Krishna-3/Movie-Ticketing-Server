@@ -37,7 +37,7 @@ namespace MovieTicketingApp.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult CreateMovieLocation(MovieLocationDto movieLocationDto) 
+        public IActionResult CreateMovieLocation([FromBody]MovieLocationDto movieLocationDto) 
         {
             if (movieLocationDto == null)
                 return BadRequest();
