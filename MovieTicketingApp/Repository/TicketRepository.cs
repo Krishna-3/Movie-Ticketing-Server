@@ -42,6 +42,7 @@ namespace MovieTicketingApp.Repository
             var tickets = _context.Tickets.Where(t => t.UserId == userId && t.Time>= DateTime.Now)
                                           .Include(t => t.MovieTheatre.Movie)
                                           .Include(t => t.MovieTheatre.Theatre)
+                                          .Include(t => t.MovieTheatre.Theatre.Location)
                                           .Include(t => t.Seat);
 
             return tickets;
