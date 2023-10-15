@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using MovieTicketingApp.DTO;
 using MovieTicketingApp.Interfaces;
 using MovieTicketingApp.Models;
+using MovieTicketingApp.Services.PasswordHasher;
 using System.Security.Claims;
 
 namespace MovieTicketingApp.Controllers
@@ -14,10 +15,12 @@ namespace MovieTicketingApp.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
+            _passwordHasher = passwordHasher;
         }
 
         [Authorize]
@@ -74,12 +77,6 @@ namespace MovieTicketingApp.Controllers
             if (passwords == null)
                 return BadRequest();
 
-            if (passwords.newPassword.IsNullOrEmpty())
-            {
-                ModelState.AddModelError("message", "password is required");
-                return BadRequest(ModelState);
-            }
-
             if (!_userRepository.UserExists(userId))
             {
                 ModelState.AddModelError("message", "User doesn't exists");
@@ -88,13 +85,13 @@ namespace MovieTicketingApp.Controllers
 
             var user = _userRepository.GetUser(userId);
 
-            if (user.Password != passwords.prevPassword)
+            if (!_passwordHasher.VerifyPassword(passwords.prevPassword, user.Password))
             {
                 ModelState.AddModelError("message", "Unauthorized");
                 return StatusCode(401,ModelState);
             }
 
-            user.Password = passwords.newPassword;
+            user.Password = _passwordHasher.HashPassword(passwords.newPassword);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
