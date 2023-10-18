@@ -9,7 +9,7 @@ namespace MovieTicketingApp.Models
         [RegularExpression("^[A-Za-z][A-Za-z0-9_]{7,29}$")]
         public string Username { get; set; }
 
-        [RegularExpression("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$")]
+        [RegularExpression("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$")]
         public string Password { get; set; }
 
         [EmailAddress]
