@@ -100,6 +100,54 @@ namespace MovieTicketingApp.Controllers
             return bytes;
         }
 
+        [Authorize]
+        [HttpGet("{movieId}")]
+        [ProducesResponseType(200, Type = typeof(MovieEnDto))]
+        [ProducesResponseType(200, Type = typeof(MovieTeDto))]
+        [ProducesResponseType(200, Type = typeof(MovieHiDto))]
+        [ProducesResponseType(400)]
+        public IActionResult GetMovieById(int movieId)
+        {
+            int userId = Int32.Parse(HttpContext.User.FindFirstValue("Id"));
+
+            if (!_stateRepository.StateExists(userId) || _stateRepository.GetState(userId).selectedLocation.IsNullOrEmpty())
+            {
+                ModelState.AddModelError("message", "Please select a location");
+                return BadRequest(ModelState);
+            }
+
+            var movie = _movieRepository.GetMovie(movieId);
+
+            if (movie.Photo != null)
+            {
+                movie.Photo = GetImage(Convert.ToBase64String(movie.Photo));
+            }
+
+            var language = _stateRepository.GetState(userId).preferredLanguage;
+
+            if (language == "te")
+            {
+                var teMovie = _mapper.Map<MovieTeDto>(movie);
+                teMovie.Type = language;
+
+                return Ok(teMovie);
+            }
+            else if (language == "hi")
+            {
+                var hiMovie = _mapper.Map<MovieHiDto>(movie);
+                hiMovie.Type = language; 
+
+                return Ok(hiMovie);
+            }
+            else
+            {
+                var enMovie = _mapper.Map<MovieEnDto>(movie);
+                enMovie.Type = language;
+
+                return Ok(enMovie);
+            }
+        }
+
         [Authorize(Roles = "admin")]
         [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Movie>))]
