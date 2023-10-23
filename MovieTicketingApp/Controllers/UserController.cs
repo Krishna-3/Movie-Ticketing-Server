@@ -114,7 +114,7 @@ namespace MovieTicketingApp.Controllers
         {
             int id = Int32.Parse(HttpContext.User.FindFirstValue("Id"));
 
-            if (id == userId)
+            if (id != userId)
             {
                 return Unauthorized();
             }
