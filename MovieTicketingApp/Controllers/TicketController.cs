@@ -86,9 +86,7 @@ namespace MovieTicketingApp.Controllers
             if (dateTime == null)
                 return BadRequest(dateTime);
 
-            string format = "dd-MM-yyyy, h:mmtt";
-
-            DateTime.TryParseExact(dateTime, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result);
+            DateTime.TryParse(dateTime, out DateTime result);
 
             var now = DateTime.Now;
 
